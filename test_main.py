@@ -1,14 +1,12 @@
+import pytest
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-import time
 
-def test_articles_button_is_avalible_on_home_page():
-    home_url = "http://htmlbook.ru/"
-    timeout = 5
-
+@pytest.fixture(scope="function")
+def browser():
     # Don't wait for the page to load fully:
     caps = DesiredCapabilities().CHROME
     caps["pageLoadStrategy"] = "eager"
@@ -24,6 +22,8 @@ def test_articles_button_is_avalible_on_home_page():
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--ignore-ssl-errors')
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
+
+    print("\nstart browser for test..")
     browser = webdriver.Chrome(desired_capabilities=caps, options=options)
     browser.execute_cdp_cmd(
         "Page.addScriptToEvaluateOnNewDocument",
@@ -34,7 +34,15 @@ def test_articles_button_is_avalible_on_home_page():
         {"source": "const newProto = navigator.__proto__ delete newProto.webdriver navigator.__proto__ = newProto"}
     )
 
-    try:
+    yield browser
+    print("\nquit browser..")
+    browser.quit()
+
+class TestHomePage():
+    def test_articles_button_is_avalible_on_home_page(self, browser):
+        home_url = "http://htmlbook.ru/"
+        timeout = 5
+
         browser.get(home_url)
         button = WebDriverWait(browser, timeout).until(
             EC.presence_of_element_located((By.XPATH, '//a[@href="/content"]'))
@@ -44,10 +52,10 @@ def test_articles_button_is_avalible_on_home_page():
             EC.url_changes(home_url)
         )
         url = browser.current_url
-        assert url == "http://htmlbook.ru/content", f"Url of the article page is {url} istead of http://htmlbook.ru/content"
-    finally:
-        browser.quit()
+        assert\
+            url == "http://htmlbook.ru/content",\
+            f"Url of the article page is {url} istead of http://htmlbook.ru/content"
 
 if __name__ == "__main__":
-    test_articles_button_is_avalible_on_home_page()
+    TestHomePage.test_articles_button_is_avalible_on_home_page()
     print("All tests passed!")
