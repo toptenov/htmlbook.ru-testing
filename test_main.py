@@ -1,11 +1,17 @@
 from selenium import webdriver
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import time
 
-def main():
+def test_articles_button_is_avalible_on_home_page():
     link = "http://htmlbook.ru/"
+    timeout = 5
+
+    # Don't wait for the page to load fully:
+    caps = DesiredCapabilities().CHROME
+    caps["pageLoadStrategy"] = "eager"
 
     options = webdriver.ChromeOptions()
     options.add_argument("--disable-blink-features")
@@ -18,7 +24,7 @@ def main():
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--ignore-ssl-errors')
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
-    browser = webdriver.Chrome(options=options)
+    browser = webdriver.Chrome(desired_capabilities=caps, options=options)
     browser.execute_cdp_cmd(
         "Page.addScriptToEvaluateOnNewDocument",
         {"source": "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"}
@@ -30,14 +36,18 @@ def main():
 
     try:
         browser.get(link)
-        button = WebDriverWait(browser, 5).until(
-            expected_conditions.element_to_be_clickable(
-                (By.XPATH, '//a[@href="/content"]')
-            )
+        button = WebDriverWait(browser, timeout).until(
+            EC.presence_of_element_located((By.XPATH, '//a[@href="/content"]'))
         )
         button.click()
+        WebDriverWait(browser, timeout).until(
+            EC.url_changes("http://htmlbook.ru")
+        )
+        url = browser.current_url
+        assert url == "http://htmlbook.ru/content", f"Url of the article page is {url} istead of http://htmlbook.ru/content"
     finally:
         browser.quit()
 
 if __name__ == "__main__":
-    main()
+    test_articles_button_is_avalible_on_home_page()
+    print("All tests passed!")
