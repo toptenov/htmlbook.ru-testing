@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 import time
 
 def test_articles_button_is_avalible_on_home_page():
-    link = "http://htmlbook.ru/"
+    home_url = "http://htmlbook.ru/"
     timeout = 5
 
     # Don't wait for the page to load fully:
@@ -35,13 +35,13 @@ def test_articles_button_is_avalible_on_home_page():
     )
 
     try:
-        browser.get(link)
+        browser.get(home_url)
         button = WebDriverWait(browser, timeout).until(
             EC.presence_of_element_located((By.XPATH, '//a[@href="/content"]'))
         )
         button.click()
         WebDriverWait(browser, timeout).until(
-            EC.url_changes("http://htmlbook.ru")
+            EC.url_changes(home_url)
         )
         url = browser.current_url
         assert url == "http://htmlbook.ru/content", f"Url of the article page is {url} istead of http://htmlbook.ru/content"
