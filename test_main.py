@@ -17,7 +17,7 @@ class TestHomePage():
         time.sleep(4)
         url = browser.current_url
         assert url == home_url, f"Url of the logo is {url} istead of {home_url}"
-
+       
     @pytest.mark.parametrize(
         "topmenu_category_xpath, topmenu_option_xpath, topmenu_option_success_url",
         [
@@ -58,6 +58,37 @@ class TestHomePage():
         assert \
             url == topmenu_option_success_url,\
             f"Url of the article page is {url} istead of {topmenu_option_success_url}"
+
+    @pytest.mark.parametrize("correct_placeholder", [("Поиск по сайту")])
+    def test_header_search_field_is_avalible(
+        self, browser, home_url, timeout, correct_placeholder):
+
+        browser.get(home_url)
+        header_search_field = WebDriverWait(browser, timeout).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, 'header input#q'))
+        )
+        placeholder = header_search_field.get_attribute('placeholder')
+        assert placeholder == correct_placeholder,\
+            f"Placeholder of header search field is {placeholder} instead of {correct_placeholder}"
+    
+    @pytest.mark.parametrize("success_url",
+        [
+            ('http://htmlbook.ru/search')
+        ]
+    )
+    def test_header_search_button_is_avalible(
+        self, browser, home_url, timeout, success_url):
+
+        browser.get(home_url)
+        header_search_button = WebDriverWait(browser, timeout).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, 'header input.find'))
+        )
+        header_search_button.click()
+        WebDriverWait(browser, timeout).until(
+            EC.url_changes(home_url)
+        )
+        url = browser.current_url
+        assert success_url in url, f"Url {url} doesn't contain {success_url}"
 
 if __name__ == "__main__":
     TestHomePage.test_articles_button_is_avalible_on_home_page()
