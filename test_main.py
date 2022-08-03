@@ -1,41 +1,9 @@
 import pytest
 import time
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
-@pytest.fixture(scope="function")
-def browser():
-    options = webdriver.ChromeOptions()
-    options.page_load_strategy = 'eager'  # Don't wait for the page to load fully
-    options.add_argument('--disable-blink-features')
-    options.add_argument('--disable-extensions')
-    options.add_argument('--incognito')
-    options.add_argument('--disable-plugins-discovery')
-    options.add_argument('--start-maximized')
-    options.add_argument('--ignore-certificate-errors')
-    options.add_argument('--ignore-ssl-errors')
-    options.add_experimental_option('excludeSwitches', ['enable-logging'])
-    options.add_experimental_option('excludeSwitches', ['enable-automation'])
-    options.add_experimental_option('useAutomationExtension', False)
-
-    print("\nstart browser for test..")
-    browser = webdriver.Chrome(options=options)
-    browser.execute_cdp_cmd(
-        "Page.addScriptToEvaluateOnNewDocument",
-        {"source": "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"}
-    )
-    browser.execute_cdp_cmd(
-        "Page.addScriptToEvaluateOnNewDocument",
-        {"source": "const newProto = navigator.__proto__ delete newProto.webdriver navigator.__proto__ = newProto"}
-    )
-
-    yield browser
-    print("\nquit browser..")
-    browser.quit()
 
 @pytest.mark.parametrize("home_url, timeout", [("http://htmlbook.ru/", 10)])
 class TestHomePage():
