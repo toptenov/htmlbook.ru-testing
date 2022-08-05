@@ -5,6 +5,7 @@ from selenium import webdriver
 def browser():
     options = webdriver.ChromeOptions()
     options.page_load_strategy = 'eager'  # Don't wait for the page to load fully
+    # options.add_argument('headless')
     options.add_argument('--disable-blink-features')
     options.add_argument('--disable-extensions')
     options.add_argument('--incognito')
