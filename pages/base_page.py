@@ -32,3 +32,9 @@ class BasePage():
             EC.element_to_be_clickable((how_to_find, what_to_find))
         )
         element.click()
+
+    def wait_until_URL_be_changed(self, url):
+        assert \
+            WebDriverWait(self.browser, self.timeout).until(
+                EC.url_changes(url)
+            ), f"URL {url} has not been changed"

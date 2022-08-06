@@ -10,7 +10,7 @@ from pages.home_page import HomePage
 
 @pytest.mark.parametrize("home_url", [("http://htmlbook.ru/")])
 class TestHomePage():
-    @pytest.mark.skip
+
     def test_logo_directs_on_home_page(self, browser, home_url):
         page = HomePage(browser, home_url)
         page.open()
@@ -18,8 +18,7 @@ class TestHomePage():
         page.click_on_logo()
         time.sleep(4)
         page.logo_click_should_direct_on_home_page(home_url)
-    
-    @pytest.mark.skip
+
     @pytest.mark.parametrize(
         "topmenu_category_xpath, topmenu_option_xpath, topmenu_option_success_url",
         [
@@ -48,14 +47,12 @@ class TestHomePage():
         page.click_on_topmenu_option(topmenu_option_xpath)
         page.wait_until_home_url_changes(home_url)
         page.topmenu_option_should_direct_on_correct_page(topmenu_option_success_url)
-
-    @pytest.mark.skip
+    
     def test_header_search_field_is_on_home_page(self, browser, home_url):
         page = HomePage(browser, home_url)
         page.open()
         page.header_search_field_should_be_on_home_page()
-
-    @pytest.mark.skip
+    
     @pytest.mark.parametrize("correct_placeholder", [("Поиск по сайту")])
     def test_header_search_field_has_correct_placeholder(self, browser, home_url, correct_placeholder):
         page = HomePage(browser, home_url)
