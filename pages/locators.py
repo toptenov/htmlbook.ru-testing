@@ -1,0 +1,26 @@
+from selenium.webdriver.common.by import By
+
+
+class HomePageLocators():
+    LOGO = (By.CSS_SELECTOR, ".logo")
+    TOPMENU_CATEGORY_MAIN = (By.XPATH, '//a[@href="#main"]')
+    TOPMENU_CATEGORY_HTML = (By.XPATH, '//a[@href="#html"]')
+    TOPMENU_CATEGORY_CSS = (By.XPATH, '//a[@href="#css"]')
+    TOPMENU_CATEGORY_SITE = (By.XPATH, '//a[@href="#site"]')
+    TOPMENU_OPTION_CONTENT = (By.XPATH, '//header//a[text()="Статьи"]')
+    TOPMENU_OPTION_BLOG = (By.XPATH, '//header//a[text()="Блог"]')
+    TOPMENU_OPTION_PRACTICAL = (By.XPATH, '//header//a[text()="Практикум"]')
+    TOPMENU_OPTION_FORUM = (By.XPATH, '//header//a[text()="Форум"]')
+    TOPMENU_OPTION_SELF_INSTRUCTION_HTML_MANUAL = (By.XPATH, '//header//a[text()="Самоучитель HTML"]')
+    TOPMENU_OPTION_HTML_GUIDE = (By.XPATH, '//header//a[text()="Справочник по HTML"]')
+    TOPMENU_OPTION_XHTML = (By.XPATH, '//header//a[text()="XHTML"]')
+    TOPMENU_OPTION_HTML5 = (By.XPATH, '//header//a[text()="HTML5"]')
+    TOPMENU_OPTION_SELF_INSTRUCTION_CSS_MANUAL = (By.XPATH, '//header//a[text()="Самоучитель CSS"]')
+    TOPMENU_OPTION_CSS_GUIDE = (By.XPATH, '//header//a[text()="Справочник по CSS"]')
+    TOPMENU_OPTION_CSS_RECIPES = (By.XPATH, '//header//a[text()="Рецепты CSS"]')
+    TOPMENU_OPTION_CSS3 = (By.XPATH, '//header//a[text()="CSS3"]')
+    TOPMENU_OPTION_WEB_LAYOUT = (By.XPATH, '//header//a[text()="Вёрстка веб-страниц"]')
+    TOPMENU_OPTION_LAYOUTS = (By.XPATH, '//header//a[text()="Макеты"]')
+    TOPMENU_OPTION_WEBSERVER = (By.XPATH, '//header//a[text()="Веб-сервер"]')
+    TOPMENU_SEARCH_FIELD = (By.CSS_SELECTOR, 'header input#q')
+    TOPMENU_SEARCH_BUTTON = (By.CSS_SELECTOR, 'header input.find')

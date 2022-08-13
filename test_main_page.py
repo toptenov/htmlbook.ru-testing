@@ -1,10 +1,7 @@
 import pytest
 import time
 
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-
+from pages.locators import HomePageLocators
 from pages.home_page import HomePage
 
 
@@ -22,21 +19,67 @@ class TestHomePage():
     @pytest.mark.parametrize(
         "topmenu_category_xpath, topmenu_option_xpath, topmenu_option_success_url",
         [
-            ('//a[@href="#main"]', '//header//a[text()="Статьи"]', 'http://htmlbook.ru/content'),
-            ('//a[@href="#main"]', '//header//a[text()="Блог"]', 'http://htmlbook.ru/blog'),
-            ('//a[@href="#main"]', '//header//a[text()="Практикум"]', 'http://htmlbook.ru/practical'),
-            ('//a[@href="#main"]', '//header//a[text()="Форум"]', 'https://htmlforum.io/'),
-            ('//a[@href="#html"]', '//header//a[text()="Самоучитель HTML"]', 'http://htmlbook.ru/samhtml'),
-            ('//a[@href="#html"]', '//header//a[text()="Справочник по HTML"]', 'http://htmlbook.ru/html'),
-            ('//a[@href="#html"]', '//header//a[text()="XHTML"]', 'http://htmlbook.ru/xhtml'),
-            ('//a[@href="#html"]', '//header//a[text()="HTML5"]', 'http://htmlbook.ru/html5'),
-            ('//a[@href="#css"]', '//header//a[text()="Самоучитель CSS"]', 'http://htmlbook.ru/samcss'),
-            ('//a[@href="#css"]', '//header//a[text()="Справочник по CSS"]', 'http://htmlbook.ru/css'),
-            ('//a[@href="#css"]', '//header//a[text()="Рецепты CSS"]', 'http://htmlbook.ru/faq'),
-            ('//a[@href="#css"]', '//header//a[text()="CSS3"]', 'http://htmlbook.ru/css3'),
-            ('//a[@href="#site"]', '//header//a[text()="Вёрстка веб-страниц"]', 'http://htmlbook.ru/samlayout'),
-            ('//a[@href="#site"]', '//header//a[text()="Макеты"]', 'http://htmlbook.ru/layout'),
-            ('//a[@href="#site"]', '//header//a[text()="Веб-сервер"]', 'http://htmlbook.ru/webserver'),
+            (
+                HomePageLocators.TOPMENU_CATEGORY_MAIN,
+                HomePageLocators.TOPMENU_OPTION_CONTENT,
+                'http://htmlbook.ru/content'
+            ),(
+                HomePageLocators.TOPMENU_CATEGORY_MAIN,
+                HomePageLocators.TOPMENU_OPTION_BLOG,
+                'http://htmlbook.ru/blog'
+            ),(
+                HomePageLocators.TOPMENU_CATEGORY_MAIN,
+                HomePageLocators.TOPMENU_OPTION_PRACTICAL,
+                'http://htmlbook.ru/practical'
+            ),(
+                HomePageLocators.TOPMENU_CATEGORY_MAIN,
+                HomePageLocators.TOPMENU_OPTION_FORUM,
+                'https://htmlforum.io/'
+            ),(
+                HomePageLocators.TOPMENU_CATEGORY_HTML,
+                HomePageLocators.TOPMENU_OPTION_SELF_INSTRUCTION_HTML_MANUAL,
+                'http://htmlbook.ru/samhtml'
+            ),(
+                HomePageLocators.TOPMENU_CATEGORY_HTML,
+                HomePageLocators.TOPMENU_OPTION_HTML_GUIDE,
+                'http://htmlbook.ru/html'
+            ),(
+                HomePageLocators.TOPMENU_CATEGORY_HTML,
+                HomePageLocators.TOPMENU_OPTION_XHTML,
+                'http://htmlbook.ru/xhtml'
+            ),(
+                HomePageLocators.TOPMENU_CATEGORY_HTML,
+                HomePageLocators.TOPMENU_OPTION_HTML5,
+                'http://htmlbook.ru/html5'
+            ),(
+                HomePageLocators.TOPMENU_CATEGORY_CSS,
+                HomePageLocators.TOPMENU_OPTION_SELF_INSTRUCTION_CSS_MANUAL,
+                'http://htmlbook.ru/samcss'
+            ),(
+                HomePageLocators.TOPMENU_CATEGORY_CSS,
+                HomePageLocators.TOPMENU_OPTION_CSS_GUIDE,
+                'http://htmlbook.ru/css'
+            ),(
+                HomePageLocators.TOPMENU_CATEGORY_CSS,
+                HomePageLocators.TOPMENU_OPTION_CSS_RECIPES,
+                'http://htmlbook.ru/faq'
+            ),(
+                HomePageLocators.TOPMENU_CATEGORY_CSS,
+                HomePageLocators.TOPMENU_OPTION_CSS3,
+                'http://htmlbook.ru/css3'
+            ),(
+                HomePageLocators.TOPMENU_CATEGORY_SITE,
+                HomePageLocators.TOPMENU_OPTION_WEB_LAYOUT,
+                'http://htmlbook.ru/samlayout'
+            ),(
+                HomePageLocators.TOPMENU_CATEGORY_SITE,
+                HomePageLocators.TOPMENU_OPTION_LAYOUTS,
+                'http://htmlbook.ru/layout'
+            ),(
+                HomePageLocators.TOPMENU_CATEGORY_SITE,
+                HomePageLocators.TOPMENU_OPTION_WEBSERVER,
+                'http://htmlbook.ru/webserver'
+            ),
         ]
     )
     def test_topmenu_option_is_avalible_and_directs_on_correct_page(self, browser, home_url,
